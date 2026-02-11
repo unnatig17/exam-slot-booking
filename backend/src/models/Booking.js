@@ -7,7 +7,7 @@ const bookingSchema = new mongoose.Schema({
     required: true
   },
   examId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     required: true
   },
   slotId: {

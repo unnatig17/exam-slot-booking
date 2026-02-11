@@ -10,7 +10,7 @@ export default function SlotCard({ slot, onBook }) {
       <Button
         text="Book"
         disabled={slot.remainingCapacity === 0}
-        onClick={() => onBook(slot._id)}
+        onClick={() => onBook(slot)}
       />
     </div>
   );

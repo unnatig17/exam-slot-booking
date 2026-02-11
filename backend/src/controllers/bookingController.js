@@ -7,9 +7,12 @@ const createBooking = async (req, res) => {
   const { examId, slotId, requestId } = req.body;
 
   try {
+    console.log("Booking attempt:", { studentId, examId, slotId, requestId });
+
     // 1 Idempotency check
     const existingRequest = await Booking.findOne({ requestId });
     if (existingRequest) {
+      console.log("Idempotent request found");
       return res.json(existingRequest);
     }
 
@@ -19,6 +22,7 @@ const createBooking = async (req, res) => {
       examId
     });
     if (alreadyBooked) {
+      console.log("User already booked this exam");
       await AuditLog.create({
         actorId: studentId,
         actorRole: req.user.role,
@@ -43,6 +47,7 @@ const createBooking = async (req, res) => {
     );
 
     if (!slot) {
+      console.log("Slot not found, full, or disabled");
       await AuditLog.create({
         actorId: studentId,
         actorRole: req.user.role,
@@ -72,11 +77,22 @@ const createBooking = async (req, res) => {
       reason: "Slot booked successfully"
     });
 
+    console.log("Booking successful:", booking);
     res.status(201).json(booking);
   } catch (err) {
-    console.error("BOOKING ERROR:", err);
-    res.status(500).json({ message: "Booking failed" });
+    console.error("BOOKING ERROR:", err.message, err.stack);
+    res.status(500).json({ message: "Booking failed: " + err.message });
   }
 };
 
-module.exports = { createBooking };
+const getSlots = async (req, res) => {
+  try {
+    const slots = await ExamSlot.find({ isEnabled: true });
+    res.json(slots);
+  } catch (err) {
+    console.error("GET SLOTS ERROR:", err);
+    res.status(500).json({ message: "Failed to load slots" });
+  }
+};
+
+module.exports = { createBooking, getSlots };

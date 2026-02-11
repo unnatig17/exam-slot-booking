@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginForm from "../components/auth/LoginForm";
-import { loginUser } from "../services/authService";
+import { login } from "../services/authService";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -11,13 +11,13 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      const res = await loginUser(email, password);
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("role", res.data.role);
+      const res = await login(email, password);
+      localStorage.setItem("token", res.token);
+      localStorage.setItem("role", res.role);
 
-      navigate(res.data.role === "admin" ? "/admin" : "/student");
-    } catch {
-      setError("Invalid email or password");
+      navigate(res.role === "admin" ? "/admin" : "/student");
+    } catch (err) {
+        setError(err.response?.data?.message || "Login failed");
     }
   };
 

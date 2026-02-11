@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import RegisterForm from "../components/auth/RegisterForm";
-import { registerUser } from "../services/authService";
+import { register } from "../services/authService";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -10,7 +10,7 @@ export default function Register() {
   const navigate = useNavigate();
 
   const handleRegister = async () => {
-    await registerUser(email, password, role);
+    await register(email, password, role);
     alert("Registered successfully");
     navigate("/");
   };
