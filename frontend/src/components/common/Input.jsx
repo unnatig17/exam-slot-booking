@@ -1,9 +1,13 @@
-export default function Input({ label, type = "text", value, onChange }) {
+export default function Input({ label, type = "text", value, onChange, placeholder }) {
   return (
-    <div style={{ marginBottom: "10px" }}>
-      <label>{label}</label>
-      <br />
-      <input type={type} value={value} onChange={onChange} />
+    <div className="input-group">
+      {label && <label>{label}</label>}
+      <input 
+        type={type} 
+        value={value} 
+        onChange={onChange}
+        placeholder={placeholder}
+      />
     </div>
   );
 }

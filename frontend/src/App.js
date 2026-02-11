@@ -3,6 +3,10 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import StudentDashboard from "./pages/StudentDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
+import "./App.css";
+import "./components/common/Common.css";
+import "./components/slots/Slots.css";
+import "./components/auth/Auth.css";
 
 export default function App() {
   return (

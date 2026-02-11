@@ -1,4 +1,4 @@
 export default function ErrorText({ message }) {
   if (!message) return null;
-  return <p style={{ color: "red" }}>{message}</p>;
+  return <div className="error-text">{message}</div>;
 }
